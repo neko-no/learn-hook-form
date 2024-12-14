@@ -1,11 +1,21 @@
 "use client";
 
-import { useForm } from "react-hook-form";
+import { FC } from "react";
+import { useForm, SubmitHandler } from "react-hook-form";
 
-const page = () => {
-  const { register, handleSubmit } = useForm();
+type Inputs = {
+  email: string;
+  password: string;
+};
 
-  const onSubmit = (data) => console.log(data);
+const Page: FC = () => {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<Inputs>();
+
+  const onSubmit: SubmitHandler<Inputs> = (data) => console.log(data);
 
   return (
     <div className="App container my-8 bg-white">
@@ -15,7 +25,12 @@ const page = () => {
           <label htmlFor="email" className="mr-2">
             Email
           </label>
-          <input id="email" {...register("email")} className="border" />
+          <input
+            id="email"
+            {...register("email", { required: "必須です" })}
+            className="border"
+          />
+          {errors.email && errors.email.message}
         </div>
         <div>
           <label htmlFor="password" className="mr-2">
@@ -36,4 +51,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;
