@@ -101,7 +101,6 @@ export const FoodDeliveryForm = () => {
               className="form-control"
               placeholder="Email"
               {...register("Email", {
-                required: "Email is required.",
                 pattern: {
                   value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
                   message: "Incorrect email format.",
@@ -110,6 +109,11 @@ export const FoodDeliveryForm = () => {
                   notFake: (value) => {
                     return (
                       value != "email@gmail.com" || "This email is blocked."
+                    );
+                  },
+                  notFromBlackLostedDomain: (_, values) => {
+                    return (
+                      values.customerName == "admin" || "This form is required"
                     );
                   },
                 },
