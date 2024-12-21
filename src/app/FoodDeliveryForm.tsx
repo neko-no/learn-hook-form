@@ -96,6 +96,7 @@ export const FoodDeliveryForm = () => {
         </div>
         <div className="col">
           <TextField
+            type="email"
             label="Email"
             className="border-success"
             {...register("Email", {
@@ -107,9 +108,11 @@ export const FoodDeliveryForm = () => {
                 notFake: (value) => {
                   return value != "email@gmail.com" || "This email is blocked.";
                 },
-                notFromBlackLostedDomain: (_, values) => {
+                notFromBlackLostedDomain: (value, values) => {
                   return (
-                    values.customerName == "admin" || "This form is required"
+                    values.customerName == "admin" ||
+                    value != "" ||
+                    "This form is required"
                   );
                 },
               },
