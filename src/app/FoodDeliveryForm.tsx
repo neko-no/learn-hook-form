@@ -106,9 +106,19 @@ export const FoodDeliveryForm = () => {
                   value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
                   message: "Incorrect email format.",
                 },
+                validate: {
+                  notFake: (value) => {
+                    return (
+                      value != "email@gmail.com" || "This email is blocked."
+                    );
+                  },
+                },
               })}
             />
             <label>Email</label>
+            {errors.Email && (
+              <div className="error-feedback">{errors.Email?.message}</div>
+            )}
           </div>
         </div>
       </div>
