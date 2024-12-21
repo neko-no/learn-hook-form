@@ -1,4 +1,4 @@
-import { useForm, SubmitErrorHandler } from "react-hook-form";
+import { useForm, FieldErrors } from "react-hook-form";
 
 type FoodDeliveryFormType = {
   customerName: string;
@@ -9,7 +9,13 @@ type FoodDeliveryFormType = {
 
 export const FoodDeliveryForm = () => {
   // 型をジェネリクスで渡すことで，registerに意図しない値を入れないようにできる
-  const { register, handleSubmit } = useForm<FoodDeliveryFormType>({
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<FoodDeliveryFormType>({
+    mode: "onSubmit",
+    reValidateMode: "onChange",
     defaultValues: {
       customerName: "First Customer",
       mobile: "000-0000",
@@ -29,7 +35,7 @@ export const FoodDeliveryForm = () => {
     console.log("form data", formData);
   };
 
-  const onError: SubmitErrorHandler<FoodDeliveryFormType> = (errors) => {
+  const onError = (errors: FieldErrors) => {
     console.log("validation errors", errors);
   };
 
@@ -56,10 +62,21 @@ export const FoodDeliveryForm = () => {
               className="form-control"
               placeholder="Mobile"
               {...register("mobile", {
-                required: "Mobile number is required.",
+                minLength: {
+                  value: 10,
+                  message: "Must be 10 digits.",
+                },
+                maxLength: {
+                  value: 10,
+                  message: "Must be 10 digits.",
+                },
+                required: "This field is required.",
               })}
             />
             <label>Mobile</label>
+            {errors.mobile && (
+              <div className="error-feedback">{errors.mobile?.message}</div>
+            )}
           </div>
         </div>
       </div>
@@ -84,10 +101,28 @@ export const FoodDeliveryForm = () => {
               className="form-control"
               placeholder="Email"
               {...register("Email", {
-                required: "Email is required.",
+                pattern: {
+                  value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+                  message: "Incorrect email format.",
+                },
+                validate: {
+                  notFake: (value) => {
+                    return (
+                      value != "email@gmail.com" || "This email is blocked."
+                    );
+                  },
+                  notFromBlackLostedDomain: (_, values) => {
+                    return (
+                      values.customerName == "admin" || "This form is required"
+                    );
+                  },
+                },
               })}
             />
             <label>Email</label>
+            {errors.Email && (
+              <div className="error-feedback">{errors.Email?.message}</div>
+            )}
           </div>
         </div>
       </div>
