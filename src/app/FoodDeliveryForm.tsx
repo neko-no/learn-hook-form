@@ -6,7 +6,15 @@ type FoodDeliveryFormType = {
 };
 
 export const FoodDeliveryForm = () => {
+  // 型をジェネリクスで渡すことで，registerに意図しない値を入れないようにできる
   const { register, handleSubmit } = useForm<FoodDeliveryFormType>();
+
+  // registerの返却値
+  // - name
+  // - ref
+  // - onChange
+  // - onBlur
+  // 以上をスプレッド構文で展開することで，簡潔に記載できる
 
   const onSubmit = (formData: FoodDeliveryFormType) => {
     console.log("form data", formData);
@@ -25,6 +33,7 @@ export const FoodDeliveryForm = () => {
           placeholder="Customer Name"
           {...register("customerName", {
             required: "Customer name is required.",
+            value: "default values",
           })}
         />
         <label>Customer Name</label>
