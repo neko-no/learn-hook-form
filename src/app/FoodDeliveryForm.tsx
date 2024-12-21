@@ -9,7 +9,13 @@ type FoodDeliveryFormType = {
 
 export const FoodDeliveryForm = () => {
   // 型をジェネリクスで渡すことで，registerに意図しない値を入れないようにできる
-  const { register, handleSubmit } = useForm<FoodDeliveryFormType>({
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<FoodDeliveryFormType>({
+    mode: "onSubmit",
+    reValidateMode: "onChange",
     defaultValues: {
       customerName: "First Customer",
       mobile: "000-0000",
@@ -68,6 +74,9 @@ export const FoodDeliveryForm = () => {
               })}
             />
             <label>Mobile</label>
+            {errors.mobile && (
+              <div className="error-feedback">{errors.mobile?.message}</div>
+            )}
           </div>
         </div>
       </div>
