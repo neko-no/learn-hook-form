@@ -1,4 +1,4 @@
-import { useForm, SubmitErrorHandler } from "react-hook-form";
+import { useForm, FieldErrors } from "react-hook-form";
 
 type FoodDeliveryFormType = {
   customerName: string;
@@ -29,7 +29,7 @@ export const FoodDeliveryForm = () => {
     console.log("form data", formData);
   };
 
-  const onError: SubmitErrorHandler<FoodDeliveryFormType> = (errors) => {
+  const onError = (errors: FieldErrors) => {
     console.log("validation errors", errors);
   };
 
@@ -56,7 +56,15 @@ export const FoodDeliveryForm = () => {
               className="form-control"
               placeholder="Mobile"
               {...register("mobile", {
-                required: "Mobile number is required.",
+                minLength: {
+                  value: 10,
+                  message: "Must be 10 digits.",
+                },
+                maxLength: {
+                  value: 10,
+                  message: "Must be 10 digits.",
+                },
+                required: "This field is required.",
               })}
             />
             <label>Mobile</label>
@@ -85,6 +93,10 @@ export const FoodDeliveryForm = () => {
               placeholder="Email"
               {...register("Email", {
                 required: "Email is required.",
+                pattern: {
+                  value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+                  message: "Incorrect email format.",
+                },
               })}
             />
             <label>Email</label>
