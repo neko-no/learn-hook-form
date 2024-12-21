@@ -7,6 +7,8 @@ type FoodDeliveryFormType = {
   mobile: string;
   orderNo: number;
   Email: string;
+  paymentMethod: string;
+  deliveryIn: number;
 };
 
 export const FoodDeliveryForm = () => {
@@ -23,6 +25,8 @@ export const FoodDeliveryForm = () => {
       mobile: "000-0000",
       orderNo: 123131312,
       Email: "Json@json.com",
+      paymentMethod: "",
+      deliveryIn: 0,
     },
   });
 
@@ -121,6 +125,28 @@ export const FoodDeliveryForm = () => {
           />
         </div>
       </div>
+      <div>list of ordered food items</div>
+      <div className="row mb-2">
+        <div className="col">
+          <div className="form-floating">
+            <select
+              className="form-select"
+              aria-label="Default select example"
+              {...register("paymentMethod")}
+            >
+              <option value="">Select</option>
+              <option value="online">Paid Online</option>
+              <option value="COD">Cash on Delivery</option>
+            </select>
+            <label htmlFor="#" className="">
+              Payment Method
+            </label>
+          </div>
+        </div>
+        <div className="col"></div>
+      </div>
+      <div>check out details</div>
+      <div>delivery address</div>
 
       <button type="submit" className="btn btn-primary">
         Submit
