@@ -1,8 +1,13 @@
 import Select from "@/app/controls/Select";
 import TextField from "@/app/controls/TextField";
 import { getFoodItems } from "@/app/db";
-import React, { useEffect, useState } from "react";
-import { useFieldArray, useFormContext, useFormState } from "react-hook-form";
+import React, { ChangeEvent, useEffect, useState } from "react";
+import {
+  useFieldArray,
+  useFormContext,
+  useFormState,
+  useWatch,
+} from "react-hook-form";
 
 const OrderedFoodItems = () => {
   const [foodList, setFoodList] = useState<FoodType[]>([]);
@@ -19,7 +24,9 @@ const OrderedFoodItems = () => {
     setFoodOptions([{ value: 0, text: "Select" }, ...tmpOptions]);
   }, []);
 
-  const { register } = useFormContext<{ foodItems: OrderedFoodItemType[] }>();
+  const { register, getValues, setValue } = useFormContext<{
+    foodItems: OrderedFoodItemType[];
+  }>();
 
   const { errors } = useFormState<{ foodItems: OrderedFoodItemType[] }>({
     name: "foodItems",
@@ -37,6 +44,8 @@ const OrderedFoodItems = () => {
     },
   });
 
+  useWatch<{ foodItems: OrderedFoodItemType[] }>({ name: "foodItems" });
+
   const onRowAdd = () => {
     append(
       { foodId: 0, price: 0, totalPrice: 0, quantity: 0 },
@@ -51,6 +60,18 @@ const OrderedFoodItems = () => {
     remove(index);
   };
 
+  const onFoodChange = (
+    e: ChangeEvent<HTMLSelectElement>,
+    rowIndex: number
+  ) => {
+    const foodId = parseInt(e.target.value);
+    let price: number;
+
+    if (foodId == 0) price = 0;
+    else price = foodList.find((x) => x.foodId === foodId)?.price || 0;
+
+    setValue(`foodItems.${rowIndex}.price`, price);
+  };
   return (
     <>
       <div className="text-start fw-bold mt-4">Ordered Food List</div>
@@ -85,10 +106,13 @@ const OrderedFoodItems = () => {
                       value: 1,
                       message: "Select food",
                     },
+                    onChange: (e) => {
+                      onFoodChange(e, index);
+                    },
                   })}
                 />{" "}
               </td>
-              <td>price</td>
+              <td>${getValues(`foodItems.${index}.foodId`)}</td>
               <td>
                 <TextField
                   type="number"
