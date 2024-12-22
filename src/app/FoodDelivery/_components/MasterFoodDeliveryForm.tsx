@@ -4,10 +4,10 @@ import TextField from "@/app/controls/TextField";
 import React from "react";
 import { useFormContext, useFormState } from "react-hook-form";
 
-const FoodDeliveryMaster = () => {
-  const { register } = useFormContext<FoodDeliveryMasterFormType>();
+const MasterFoodDeliveryForm = () => {
+  const { register } = useFormContext<MasterFoodDeliveryFormType>();
 
-  const { errors } = useFormState<FoodDeliveryMasterFormType>({
+  const { errors } = useFormState<MasterFoodDeliveryFormType>({
     name: ["orderNo", "customerName", "mobile", "Email", "customerField"],
   });
 
@@ -95,4 +95,4 @@ const FoodDeliveryMaster = () => {
   );
 };
 
-export default FoodDeliveryMaster;
+export default MasterFoodDeliveryForm;

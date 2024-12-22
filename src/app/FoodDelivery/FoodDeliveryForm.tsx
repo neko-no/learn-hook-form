@@ -8,9 +8,9 @@ import {
 } from "react-hook-form";
 import CheckoutForm from "./_components/CheckoutForm";
 import DeliveryAddressForm from "./_components/DeliveryAddressForm";
-import FoodDeliveryMaster from "./_components/FoodDeliveryMaster";
 import SubmitButton from "../controls/SubmitButton";
-import FoodItems from "./_components/FoodItems";
+import OrderedFoodItems from "./_components/OrderedFoodItems";
+import MasterFoodDeliveryForm from "./_components/MasterFoodDeliveryForm";
 
 export const FoodDeliveryForm = () => {
   const methods: UseFormReturn<FoodDeliveryFormType> =
@@ -24,7 +24,10 @@ export const FoodDeliveryForm = () => {
         Email: "Json@json.com",
         paymentMethod: "",
         deliveryIn: 0,
-        foodItems: [{ name: "Chicken Tender" }, { name: "Sweet Potato Fries" }],
+        foodItems: [
+          { name: "", quantity: 0 },
+          { name: "", quantity: 0 },
+        ],
         address: {
           streetAddress: "",
           landmark: "",
@@ -56,8 +59,8 @@ export const FoodDeliveryForm = () => {
   return (
     <form autoComplete="off" onSubmit={handleSubmit(onSubmit, onError)}>
       <FormProvider {...methods}>
-        <FoodDeliveryMaster />
-        <FoodItems />
+        <MasterFoodDeliveryForm />
+        <OrderedFoodItems />
         <CheckoutForm />
         <DeliveryAddressForm />
       </FormProvider>
