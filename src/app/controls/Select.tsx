@@ -2,7 +2,7 @@ import React, { forwardRef, ForwardedRef } from "react";
 import { FieldError } from "react-hook-form";
 
 type SelectProps = React.SelectHTMLAttributes<HTMLSelectElement> & {
-  label: string;
+  label?: string;
   error?: FieldError | undefined;
   options: SelectOptionType[];
 };
@@ -12,7 +12,7 @@ const Select = forwardRef(
     const { className = "", label, error, options, ...rest } = props;
 
     return (
-      <div className="form-floating">
+      <div className={label ? "form-floating" : ""}>
         <select
           className={`form-control ${className}`}
           aria-label="Default select example"
@@ -30,7 +30,7 @@ const Select = forwardRef(
             );
           })}
         </select>
-        <label>{label}</label>
+        {label && <label>{label}</label>}
         {error && <div className="error-feedback">{error.message}</div>}
       </div>
     );

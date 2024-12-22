@@ -22,12 +22,10 @@ export const FoodDeliveryForm = () => {
         mobile: "000-0000",
         orderNo: 123131312,
         Email: "Json@json.com",
+        gTotal: 0,
         paymentMethod: "",
         deliveryIn: 0,
-        foodItems: [
-          { name: "", quantity: 0 },
-          { name: "", quantity: 0 },
-        ],
+        foodItems: [{ foodId: 0, price: 0, totalPrice: 0, quantity: 0 }],
         address: {
           streetAddress: "",
           landmark: "",
@@ -37,7 +35,7 @@ export const FoodDeliveryForm = () => {
       },
     });
 
-  const { handleSubmit, control } = methods;
+  const { handleSubmit, control, getValues } = methods;
 
   // registerの返却値
   // - name
@@ -54,7 +52,10 @@ export const FoodDeliveryForm = () => {
     console.log("validation errors", errors);
   };
 
-  const onDemo = () => {};
+  const onDemo = () => {
+    getValues("foodItems.0.foodId");
+    console.log(typeof getValues("foodItems.0.foodId"));
+  };
 
   return (
     <form autoComplete="off" onSubmit={handleSubmit(onSubmit, onError)}>

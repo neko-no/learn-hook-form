@@ -11,6 +11,7 @@ type MasterFoodDeliveryFormType = {
     mobile: string;
     orderNo: number;
     Email: string;
+    gTotal: number;
 }
 
 type CheckoutFormType = {
@@ -25,4 +26,10 @@ type DeliveryAddressFormType = {
     state: string;
 }
 
-type OrderedFoodItemType = {name: string, quantity: number}
+type OrderedFoodItemType = {foodId: number, price: number, totalPrice: number, quantity: number}
+
+type FoodType= {
+    foodId: number,
+    name:string,
+    price: number
+}
