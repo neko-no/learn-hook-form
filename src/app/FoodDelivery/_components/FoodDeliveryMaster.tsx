@@ -1,12 +1,15 @@
+"use client";
+
 import TextField from "@/app/controls/TextField";
 import React from "react";
-import { useFormContext } from "react-hook-form";
+import { useFormContext, useFormState } from "react-hook-form";
 
 const FoodDeliveryMaster = () => {
-  const {
-    register,
-    formState: { errors },
-  } = useFormContext<FoodDeliveryMasterType>();
+  const { register } = useFormContext<FoodDeliveryMasterFormType>();
+
+  const { errors } = useFormState<FoodDeliveryMasterFormType>({
+    name: ["orderNo", "customerName", "mobile", "Email", "customerField"],
+  });
 
   return (
     <>

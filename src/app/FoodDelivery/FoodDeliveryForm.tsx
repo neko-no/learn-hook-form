@@ -1,3 +1,5 @@
+"use client";
+
 import {
   useForm,
   FieldErrors,
@@ -7,8 +9,12 @@ import {
 import CheckoutForm from "./_components/CheckoutForm";
 import DeliveryAddressForm from "./_components/DeliveryAddressForm";
 import FoodDeliveryMaster from "./_components/FoodDeliveryMaster";
+import SubmitButton from "../controls/SubmitButton";
+import { log } from "console";
+// import { useRenderCount } from "../hooks/useRenderCount";
 
 export const FoodDeliveryForm = () => {
+  // const RenderCount = useRenderCount();
   const methods: UseFormReturn<FoodDeliveryFormType> =
     useForm<FoodDeliveryFormType>({
       mode: "onSubmit",
@@ -29,7 +35,7 @@ export const FoodDeliveryForm = () => {
       },
     });
 
-  const { handleSubmit } = methods;
+  const { handleSubmit, control, getFieldState } = methods;
 
   // registerの返却値
   // - name
@@ -38,26 +44,25 @@ export const FoodDeliveryForm = () => {
   // - onBlur
   // 以上をスプレッド構文で展開することで，簡潔に記載できる
 
-  const onSubmit = (formData: FoodDeliveryFormType) => {
+  const onSubmit = async (formData: FoodDeliveryFormType) => {
     console.log("form data", formData);
   };
 
   const onError = (errors: FieldErrors) => {
     console.log("validation errors", errors);
+    console.log(getFieldState("customerName"));
   };
 
   return (
     <form autoComplete="off" onSubmit={handleSubmit(onSubmit, onError)}>
+      {/* <RenderCount /> */}
       <FormProvider {...methods}>
         <FoodDeliveryMaster />
-        <div>list of ordered food items</div>
         <CheckoutForm />
         <DeliveryAddressForm />
       </FormProvider>
 
-      <button type="submit" className="btn btn-primary">
-        Submit
-      </button>
+      <SubmitButton value="Submit" control={control} />
     </form>
   );
 };

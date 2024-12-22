@@ -1,5 +1,7 @@
+"use client";
+
 import React from "react";
-import { useFormContext } from "react-hook-form";
+import { useFormContext, useFormState } from "react-hook-form";
 import Select from "../../controls/Select";
 
 const paymentOptions: SelectOptionType[] = [
@@ -17,13 +19,16 @@ const deliveryInOptions: SelectOptionType[] = [
 ];
 
 const CheckoutForm = () => {
-  const {
-    register,
-    formState: { errors },
-  } = useFormContext<CheckoutFormType>();
+  // const RenderCount = useRenderCount();
+  const { register } = useFormContext<CheckoutFormType>();
+
+  const { errors } = useFormState<CheckoutFormType>({
+    name: ["paymentMethod", "deliveryIn"],
+  });
 
   return (
     <>
+      {/* <RenderCount /> */}
       <div className="text-start fw-bold mt-4 mb-2">Checkout Details</div>
       <div className="row mb-2">
         <div className="col">
