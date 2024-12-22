@@ -1,7 +1,7 @@
 "use client";
 
-import React from "react";
-import { useFormContext, useFormState } from "react-hook-form";
+import React, { useEffect } from "react";
+import { useFormContext, useFormState, useWatch } from "react-hook-form";
 import Select from "../../controls/Select";
 
 const paymentOptions: SelectOptionType[] = [
@@ -19,8 +19,13 @@ const deliveryInOptions: SelectOptionType[] = [
 ];
 
 const CheckoutForm = () => {
-  // const RenderCount = useRenderCount();
   const { register } = useFormContext<CheckoutFormType>();
+
+  const paymentMethod = useWatch<CheckoutFormType>({ name: "paymentMethod" });
+
+  useEffect(() => {
+    if (paymentMethod === "online") alert("please verify the transaction.");
+  }, [paymentMethod]);
 
   const { errors } = useFormState<CheckoutFormType>({
     name: ["paymentMethod", "deliveryIn"],
@@ -28,7 +33,6 @@ const CheckoutForm = () => {
 
   return (
     <>
-      {/* <RenderCount /> */}
       <div className="text-start fw-bold mt-4 mb-2">Checkout Details</div>
       <div className="row mb-2">
         <div className="col">

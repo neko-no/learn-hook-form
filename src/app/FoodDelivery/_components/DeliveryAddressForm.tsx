@@ -6,7 +6,7 @@ import { useFormContext, useFormState } from "react-hook-form";
 
 const DeliveryAddressForm = () => {
   // const RenderCount = useRenderCount();
-  const { register, getFieldState } = useFormContext<{
+  const { register } = useFormContext<{
     address: DeliveryAddressFormType;
   }>();
 
@@ -59,8 +59,6 @@ const DeliveryAddressForm = () => {
           />
         </div>
       </div>
-
-      <div>{getFieldState("address").invalid && "address node is invalid"}</div>
     </>
   );
 };
