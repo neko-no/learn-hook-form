@@ -10,7 +10,6 @@ import CheckoutForm from "./_components/CheckoutForm";
 import DeliveryAddressForm from "./_components/DeliveryAddressForm";
 import FoodDeliveryMaster from "./_components/FoodDeliveryMaster";
 import SubmitButton from "../controls/SubmitButton";
-import { useEffect } from "react";
 
 export const FoodDeliveryForm = () => {
   const methods: UseFormReturn<FoodDeliveryFormType> =
@@ -33,7 +32,7 @@ export const FoodDeliveryForm = () => {
       },
     });
 
-  const { handleSubmit, control, getFieldState } = methods;
+  const { handleSubmit, control, setValue } = methods;
 
   // registerの返却値
   // - name
@@ -48,7 +47,15 @@ export const FoodDeliveryForm = () => {
 
   const onError = (errors: FieldErrors) => {
     console.log("validation errors", errors);
-    console.log(getFieldState("customerName"));
+  };
+
+  const onDemo = () => {
+    // console.log(getValues())
+    setValue("Email", "email123", {
+      shouldValidate: true,
+      shouldDirty: true,
+      shouldTouch: true,
+    });
   };
 
   return (
@@ -60,6 +67,9 @@ export const FoodDeliveryForm = () => {
       </FormProvider>
 
       <SubmitButton value="Submit" control={control} />
+      <button className="btn btn-secondary ms-2" onClick={onDemo} type="button">
+        Demo
+      </button>
     </form>
   );
 };

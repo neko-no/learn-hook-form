@@ -19,7 +19,6 @@ const deliveryInOptions: SelectOptionType[] = [
 ];
 
 const CheckoutForm = () => {
-  // const RenderCount = useRenderCount();
   const { register } = useFormContext<CheckoutFormType>();
 
   const paymentMethod = useWatch<CheckoutFormType>({ name: "paymentMethod" });
@@ -34,7 +33,6 @@ const CheckoutForm = () => {
 
   return (
     <>
-      {/* <RenderCount /> */}
       <div className="text-start fw-bold mt-4 mb-2">Checkout Details</div>
       <div className="row mb-2">
         <div className="col">
