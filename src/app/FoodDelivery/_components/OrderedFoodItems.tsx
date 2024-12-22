@@ -1,6 +1,7 @@
 import Select from "@/app/controls/Select";
 import TextField from "@/app/controls/TextField";
 import { getFoodItems } from "@/app/db";
+import { roundTo2DecimalPoint } from "@/app/utils";
 import React, { ChangeEvent, useEffect, useState } from "react";
 import {
   useFieldArray,
@@ -71,7 +72,20 @@ const OrderedFoodItems = () => {
     else price = foodList.find((x) => x.foodId === foodId)?.price || 0;
 
     setValue(`foodItems.${rowIndex}.price`, price);
+    updateRowTotalPrice(rowIndex);
   };
+
+  const updateRowTotalPrice = (rowIndex: number) => {
+    const { price, quantity } = getValues(`foodItems.${rowIndex}`);
+    console.log(price, quantity);
+    let totalPrice = 0;
+    if (quantity && quantity > 0) totalPrice = price * quantity;
+    setValue(
+      `foodItems.${rowIndex}.totalPrice`,
+      roundTo2DecimalPoint(totalPrice)
+    );
+  };
+
   return (
     <>
       <div className="text-start fw-bold mt-4">Ordered Food List</div>
@@ -112,7 +126,7 @@ const OrderedFoodItems = () => {
                   })}
                 />{" "}
               </td>
-              <td>${getValues(`foodItems.${index}.foodId`)}</td>
+              <td>${getValues(`foodItems.${index}.price`)}</td>
               <td>
                 <TextField
                   type="number"
@@ -126,10 +140,13 @@ const OrderedFoodItems = () => {
                       value: 1,
                       message: "less than 1.",
                     },
+                    onChange: () => {
+                      updateRowTotalPrice(index);
+                    },
                   })}
                 />
               </td>
-              <td>total price</td>
+              <td>${getValues(`foodItems.${index}.totalPrice`)}</td>
               <td>
                 {index > 0 && (
                   <button
