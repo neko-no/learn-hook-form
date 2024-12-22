@@ -10,6 +10,7 @@ import CheckoutForm from "./_components/CheckoutForm";
 import DeliveryAddressForm from "./_components/DeliveryAddressForm";
 import FoodDeliveryMaster from "./_components/FoodDeliveryMaster";
 import SubmitButton from "../controls/SubmitButton";
+import { log } from "console";
 // import { useRenderCount } from "../hooks/useRenderCount";
 
 export const FoodDeliveryForm = () => {
@@ -34,7 +35,7 @@ export const FoodDeliveryForm = () => {
       },
     });
 
-  const { handleSubmit, control } = methods;
+  const { handleSubmit, control, getFieldState } = methods;
 
   // registerの返却値
   // - name
@@ -49,6 +50,7 @@ export const FoodDeliveryForm = () => {
 
   const onError = (errors: FieldErrors) => {
     console.log("validation errors", errors);
+    console.log(getFieldState("customerName"));
   };
 
   return (
