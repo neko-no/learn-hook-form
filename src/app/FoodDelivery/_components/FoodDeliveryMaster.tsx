@@ -8,7 +8,7 @@ const FoodDeliveryMaster = () => {
   const { register } = useFormContext<FoodDeliveryMasterFormType>();
 
   const { errors } = useFormState<FoodDeliveryMasterFormType>({
-    name: ["orderNo", "customerName", "mobile", "Email"],
+    name: ["orderNo", "customerName", "mobile", "Email", "customerField"],
   });
 
   return (

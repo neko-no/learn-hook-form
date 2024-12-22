@@ -34,10 +34,7 @@ export const FoodDeliveryForm = () => {
       },
     });
 
-  const {
-    handleSubmit,
-    formState: { isSubmitting },
-  } = methods;
+  const { handleSubmit, control } = methods;
 
   // registerの返却値
   // - name
@@ -63,7 +60,7 @@ export const FoodDeliveryForm = () => {
         <DeliveryAddressForm />
       </FormProvider>
 
-      <SubmitButton value="Submit" isSubmitting={isSubmitting} />
+      <SubmitButton value="Submit" control={control} />
     </form>
   );
 };

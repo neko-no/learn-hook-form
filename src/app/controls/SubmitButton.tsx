@@ -1,16 +1,14 @@
 import React from "react";
+import { Control, useFormState } from "react-hook-form";
 
 type SubmitButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
-  isSubmitting?: boolean;
+  control?: Control;
 };
 
 const SubmitButton = (prop: SubmitButtonProps) => {
-  const {
-    isSubmitting = undefined,
-    className = "btn-light",
-    value,
-    ...rest
-  } = prop;
+  const { className = "btn-light", value, control = undefined, ...rest } = prop;
+
+  const { isSubmitting } = useFormState({ control });
   return (
     <button
       type="submit"

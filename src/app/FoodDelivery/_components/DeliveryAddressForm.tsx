@@ -9,7 +9,12 @@ const DeliveryAddressForm = () => {
   const { register } = useFormContext<{ address: DeliveryAddressFormType }>();
 
   const { errors } = useFormState<{ address: DeliveryAddressFormType }>({
-    name: "address",
+    name: [
+      "address.streetAddress",
+      "address.city",
+      "address.landmark",
+      "address.state",
+    ],
   });
 
   return (
