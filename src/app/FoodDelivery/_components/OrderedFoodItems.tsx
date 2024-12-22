@@ -25,9 +25,11 @@ const OrderedFoodItems = () => {
     setFoodOptions([{ value: 0, text: "Select" }, ...tmpOptions]);
   }, []);
 
-  const { register, getValues, setValue } = useFormContext<{
-    foodItems: OrderedFoodItemType[];
-  }>();
+  const { register, getValues, setValue } = useFormContext<
+    { gTotal: number } & {
+      foodItems: OrderedFoodItemType[];
+    }
+  >();
 
   const { errors } = useFormState<{ foodItems: OrderedFoodItemType[] }>({
     name: "foodItems",
@@ -45,7 +47,27 @@ const OrderedFoodItems = () => {
     },
   });
 
-  useWatch<{ foodItems: OrderedFoodItemType[] }>({ name: "foodItems" });
+  const selectedFoodItems: OrderedFoodItemType[] = useWatch({
+    name: "foodItems",
+  });
+  useWatch({ name: "gTotal" });
+
+  useEffect(() => {
+    updateGTotal();
+  }, [selectedFoodItems]);
+
+  const updateGTotal = () => {
+    let gTotal = 0;
+
+    if (selectedFoodItems && selectedFoodItems.length > 0) {
+      gTotal = selectedFoodItems.reduce(
+        (sum, curr) => sum + curr.totalPrice,
+        0
+      );
+    }
+
+    setValue("gTotal", roundTo2DecimalPoint(gTotal));
+  };
 
   const onRowAdd = () => {
     append(
@@ -89,13 +111,13 @@ const OrderedFoodItems = () => {
   return (
     <>
       <div className="text-start fw-bold mt-4">Ordered Food List</div>
-      <table className="table table-borderless table-hover">
+      <table id="foodItems" className="table table-borderless table-hover">
         <thead>
           <tr>
             <th>Food</th>
-            <th>Price</th>
+            <th className="text-start">Price</th>
             <th>Quantity</th>
-            <th>Total Price</th>
+            <th className="text-start">T. Price</th>
             <th>
               <button
                 type="button"
@@ -126,7 +148,9 @@ const OrderedFoodItems = () => {
                   })}
                 />{" "}
               </td>
-              <td>${getValues(`foodItems.${index}.price`)}</td>
+              <td className="text-start align-middle">
+                ${getValues(`foodItems.${index}.price`)}
+              </td>
               <td>
                 <TextField
                   type="number"
@@ -146,7 +170,9 @@ const OrderedFoodItems = () => {
                   })}
                 />
               </td>
-              <td>${getValues(`foodItems.${index}.totalPrice`)}</td>
+              <td className="text-start align-middle">
+                ${getValues(`foodItems.${index}.totalPrice`)}
+              </td>
               <td>
                 {index > 0 && (
                   <button
@@ -161,8 +187,18 @@ const OrderedFoodItems = () => {
             </tr>
           ))}
         </tbody>
-        {errors.foodItems?.root && (
-          <tfoot>
+        <tfoot>
+          {fields && fields.length > 0 && (
+            <tr className="border-top">
+              <td colSpan={2}></td>
+              <td>G. Toal</td>
+              <td className="text-start align-middle">
+                {"$" + getValues("gTotal")}
+              </td>
+              <td></td>
+            </tr>
+          )}
+          {errors.foodItems?.root && (
             <tr>
               <td colSpan={5}>
                 <span className="error-feedback">
@@ -170,8 +206,8 @@ const OrderedFoodItems = () => {
                 </span>
               </td>
             </tr>
-          </tfoot>
-        )}
+          )}
+        </tfoot>
       </table>
     </>
   );

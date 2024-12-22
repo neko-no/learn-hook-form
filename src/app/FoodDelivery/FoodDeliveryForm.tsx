@@ -22,6 +22,7 @@ export const FoodDeliveryForm = () => {
         mobile: "000-0000",
         orderNo: 123131312,
         Email: "Json@json.com",
+        gTotal: 0,
         paymentMethod: "",
         deliveryIn: 0,
         foodItems: [{ foodId: 0, price: 0, totalPrice: 0, quantity: 0 }],

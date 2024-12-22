@@ -19,3 +19,12 @@ body {
   font-size: 0.875em;
   color: #ea868f;
 }
+
+#foodItems {
+  max-width: 600px;
+  min-width: 600px;
+}
+
+#foodItems thead tr th:not(:first-child):not(:last-child) {
+  width: 15%;
+}

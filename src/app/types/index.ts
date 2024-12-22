@@ -11,6 +11,7 @@ type MasterFoodDeliveryFormType = {
     mobile: string;
     orderNo: number;
     Email: string;
+    gTotal: number;
 }
 
 type CheckoutFormType = {
