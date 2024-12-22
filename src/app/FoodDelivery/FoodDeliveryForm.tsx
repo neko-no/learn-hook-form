@@ -7,6 +7,7 @@ import {
 import CheckoutForm from "./_components/CheckoutForm";
 import DeliveryAddressForm from "./_components/DeliveryAddressForm";
 import FoodDeliveryMaster from "./_components/FoodDeliveryMaster";
+import SubmitButton from "../controls/SubmitButton";
 
 export const FoodDeliveryForm = () => {
   const methods: UseFormReturn<FoodDeliveryFormType> =
@@ -29,7 +30,10 @@ export const FoodDeliveryForm = () => {
       },
     });
 
-  const { handleSubmit } = methods;
+  const {
+    handleSubmit,
+    formState: { isSubmitting },
+  } = methods;
 
   // registerの返却値
   // - name
@@ -38,7 +42,8 @@ export const FoodDeliveryForm = () => {
   // - onBlur
   // 以上をスプレッド構文で展開することで，簡潔に記載できる
 
-  const onSubmit = (formData: FoodDeliveryFormType) => {
+  const onSubmit = async (formData: FoodDeliveryFormType) => {
+    await new Promise((resolve) => setTimeout(resolve, 3000));
     console.log("form data", formData);
   };
 
@@ -55,9 +60,7 @@ export const FoodDeliveryForm = () => {
         <DeliveryAddressForm />
       </FormProvider>
 
-      <button type="submit" className="btn btn-primary">
-        Submit
-      </button>
+      <SubmitButton value="Submit" isSubmitting={isSubmitting} />
     </form>
   );
 };
