@@ -8,8 +8,9 @@ import {
 } from "react-hook-form";
 import CheckoutForm from "./_components/CheckoutForm";
 import DeliveryAddressForm from "./_components/DeliveryAddressForm";
-import FoodDeliveryMaster from "./_components/FoodDeliveryMaster";
 import SubmitButton from "../controls/SubmitButton";
+import OrderedFoodItems from "./_components/OrderedFoodItems";
+import MasterFoodDeliveryForm from "./_components/MasterFoodDeliveryForm";
 
 export const FoodDeliveryForm = () => {
   const methods: UseFormReturn<FoodDeliveryFormType> =
@@ -23,6 +24,10 @@ export const FoodDeliveryForm = () => {
         Email: "Json@json.com",
         paymentMethod: "",
         deliveryIn: 0,
+        foodItems: [
+          { name: "", quantity: 0 },
+          { name: "", quantity: 0 },
+        ],
         address: {
           streetAddress: "",
           landmark: "",
@@ -32,7 +37,7 @@ export const FoodDeliveryForm = () => {
       },
     });
 
-  const { handleSubmit, control, setValue } = methods;
+  const { handleSubmit, control } = methods;
 
   // registerの返却値
   // - name
@@ -49,19 +54,13 @@ export const FoodDeliveryForm = () => {
     console.log("validation errors", errors);
   };
 
-  const onDemo = () => {
-    // console.log(getValues())
-    setValue("Email", "email123", {
-      shouldValidate: true,
-      shouldDirty: true,
-      shouldTouch: true,
-    });
-  };
+  const onDemo = () => {};
 
   return (
     <form autoComplete="off" onSubmit={handleSubmit(onSubmit, onError)}>
       <FormProvider {...methods}>
-        <FoodDeliveryMaster />
+        <MasterFoodDeliveryForm />
+        <OrderedFoodItems />
         <CheckoutForm />
         <DeliveryAddressForm />
       </FormProvider>
