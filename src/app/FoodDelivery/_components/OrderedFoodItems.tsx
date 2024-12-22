@@ -9,10 +9,16 @@ const OrderedFoodItems = () => {
     name: "foodItems",
   });
 
-  const { fields, append, move, replace, remove } = useFieldArray<{
+  const { fields, append, remove } = useFieldArray<{
     foodItems: OrderedFoodItemType[];
   }>({
     name: "foodItems",
+    rules: {
+      required: {
+        value: true,
+        message: "Food Items required.",
+      },
+    },
   });
 
   const onRowAdd = () => {
@@ -23,18 +29,6 @@ const OrderedFoodItems = () => {
         focusIndex: 0,
       }
     );
-  };
-
-  const onSwapAndMove = () => {
-    // swap(0, 2);
-    move(0, 2);
-  };
-
-  const onUpdateAndReplace = () => {
-    replace([
-      { name: "Food*", quantity: 5 },
-      { name: "Replace Food", quantity: 10 },
-    ]);
   };
 
   const onRowDelete = (index: number) => {
@@ -80,34 +74,31 @@ const OrderedFoodItems = () => {
                 />
               </td>
               <td>
-                <button
-                  type="button"
-                  className="btn btn-sm btn-outline-danger"
-                  onClick={() => onRowDelete(index)}
-                >
-                  DEL
-                </button>
+                {index > 0 && (
+                  <button
+                    type="button"
+                    className="btn btn-sm btn-outline-danger"
+                    onClick={() => onRowDelete(index)}
+                  >
+                    DEL
+                  </button>
+                )}
               </td>
             </tr>
           ))}
         </tbody>
+        {errors.foodItems?.root && (
+          <tfoot>
+            <tr>
+              <td colSpan={3}>
+                <span className="error-feedback">
+                  {errors.foodItems?.root?.message}
+                </span>
+              </td>
+            </tr>
+          </tfoot>
+        )}
       </table>
-      {fields.length >= 4 && (
-        <button
-          type="button"
-          className="btn btn-sm btn-secondary"
-          onClick={onSwapAndMove}
-        >
-          Swap and Move
-        </button>
-      )}
-      <button
-        type="button"
-        className="btn btn-sm btn-secondary"
-        onClick={onUpdateAndReplace}
-      >
-        Update and Replace
-      </button>
     </>
   );
 };
