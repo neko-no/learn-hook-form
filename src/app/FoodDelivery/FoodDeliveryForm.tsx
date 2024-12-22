@@ -34,7 +34,7 @@ export const FoodDeliveryForm = () => {
       },
     });
 
-  const { handleSubmit, control } = methods;
+  const { handleSubmit, control, getValues } = methods;
 
   // registerの返却値
   // - name
@@ -51,7 +51,10 @@ export const FoodDeliveryForm = () => {
     console.log("validation errors", errors);
   };
 
-  const onDemo = () => {};
+  const onDemo = () => {
+    getValues("foodItems.0.foodId");
+    console.log(typeof getValues("foodItems.0.foodId"));
+  };
 
   return (
     <form autoComplete="off" onSubmit={handleSubmit(onSubmit, onError)}>

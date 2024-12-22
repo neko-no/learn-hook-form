@@ -77,10 +77,10 @@ const OrderedFoodItems = () => {
             <tr key={field.id}>
               <td>
                 <Select
-                  {...register(`foodItems.${index}.foodId` as const, {
-                    required: "This field is required",
-                  })}
                   options={foodOptions}
+                  {...register(`foodItems.${index}.foodId` as const, {
+                    valueAsNumber: true,
+                  })}
                 />{" "}
               </td>
               <td>price</td>
