@@ -53,7 +53,7 @@ export const FoodDeliveryForm = () => {
       },
     });
 
-  const { handleSubmit, control, getValues } = methods;
+  const { handleSubmit, control, resetField } = methods;
 
   // registerの返却値
   // - name
@@ -74,8 +74,10 @@ export const FoodDeliveryForm = () => {
   };
 
   const onDemo = () => {
-    getValues("foodItems.0.foodId");
-    console.log(typeof getValues("foodItems.0.foodId"));
+    resetField("Email", {
+      keepError: true,
+      defaultValue: "abc@gmail.com",
+    });
   };
 
   return (
@@ -90,7 +92,7 @@ export const FoodDeliveryForm = () => {
 
       <SubmitButton value="Submit" control={control} />
       <button className="btn btn-secondary ms-2" onClick={onDemo} type="button">
-        Demo
+        Reset
       </button>
     </form>
   );
