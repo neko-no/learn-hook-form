@@ -2,7 +2,8 @@ import React from "react";
 import { Control, useFormState } from "react-hook-form";
 
 type SubmitButtonProps = React.ButtonHTMLAttributes<HTMLButtonElement> & {
-  control?: Control;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  control?: Control<any, any>;
 };
 
 const SubmitButton = (prop: SubmitButtonProps) => {

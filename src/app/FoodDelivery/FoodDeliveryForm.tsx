@@ -10,11 +10,9 @@ import CheckoutForm from "./_components/CheckoutForm";
 import DeliveryAddressForm from "./_components/DeliveryAddressForm";
 import FoodDeliveryMaster from "./_components/FoodDeliveryMaster";
 import SubmitButton from "../controls/SubmitButton";
-import { log } from "console";
-// import { useRenderCount } from "../hooks/useRenderCount";
+import { useEffect } from "react";
 
 export const FoodDeliveryForm = () => {
-  // const RenderCount = useRenderCount();
   const methods: UseFormReturn<FoodDeliveryFormType> =
     useForm<FoodDeliveryFormType>({
       mode: "onSubmit",
@@ -35,7 +33,12 @@ export const FoodDeliveryForm = () => {
       },
     });
 
-  const { handleSubmit, control, getFieldState } = methods;
+  const { handleSubmit, control, getFieldState, watch } = methods;
+
+  const paymentMethod = watch("paymentMethod");
+  useEffect(() => {
+    if (paymentMethod == "online") alert("please verify transaction");
+  }, [paymentMethod]);
 
   // registerの返却値
   // - name
@@ -55,7 +58,6 @@ export const FoodDeliveryForm = () => {
 
   return (
     <form autoComplete="off" onSubmit={handleSubmit(onSubmit, onError)}>
-      {/* <RenderCount /> */}
       <FormProvider {...methods}>
         <FoodDeliveryMaster />
         <CheckoutForm />
