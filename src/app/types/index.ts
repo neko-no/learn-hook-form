@@ -2,9 +2,9 @@ type SelectOptionType = string | {value: string | number, text: string};
 
 type FoodDeliveryFormType = {
     address: DeliveryAddressFormType
-  } & FoodDeliveryMasterType & CheckoutFormType;
+  } & FoodDeliveryMasterFormType & CheckoutFormType;
 
-type FoodDeliveryMasterType = {
+type FoodDeliveryMasterFormType = {
     customerName: string;
     customerField: string;
     mobile: string;

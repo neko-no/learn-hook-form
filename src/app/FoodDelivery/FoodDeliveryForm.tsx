@@ -1,3 +1,5 @@
+"use client";
+
 import {
   useForm,
   FieldErrors,
@@ -8,8 +10,10 @@ import CheckoutForm from "./_components/CheckoutForm";
 import DeliveryAddressForm from "./_components/DeliveryAddressForm";
 import FoodDeliveryMaster from "./_components/FoodDeliveryMaster";
 import SubmitButton from "../controls/SubmitButton";
+// import { useRenderCount } from "../hooks/useRenderCount";
 
 export const FoodDeliveryForm = () => {
+  // const RenderCount = useRenderCount();
   const methods: UseFormReturn<FoodDeliveryFormType> =
     useForm<FoodDeliveryFormType>({
       mode: "onSubmit",
@@ -43,7 +47,6 @@ export const FoodDeliveryForm = () => {
   // 以上をスプレッド構文で展開することで，簡潔に記載できる
 
   const onSubmit = async (formData: FoodDeliveryFormType) => {
-    await new Promise((resolve) => setTimeout(resolve, 3000));
     console.log("form data", formData);
   };
 
@@ -53,9 +56,9 @@ export const FoodDeliveryForm = () => {
 
   return (
     <form autoComplete="off" onSubmit={handleSubmit(onSubmit, onError)}>
+      {/* <RenderCount /> */}
       <FormProvider {...methods}>
         <FoodDeliveryMaster />
-        <div>list of ordered food items</div>
         <CheckoutForm />
         <DeliveryAddressForm />
       </FormProvider>
