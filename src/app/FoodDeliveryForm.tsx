@@ -1,61 +1,38 @@
-import { useForm, FieldErrors } from "react-hook-form";
+import {
+  useForm,
+  FieldErrors,
+  UseFormReturn,
+  FormProvider,
+} from "react-hook-form";
 import TextField from "./controls/TextField";
-import Select from "./controls/Select";
-
-type FoodDeliveryFormType = {
-  customerName: string;
-  customerField: string;
-  mobile: string;
-  orderNo: number;
-  Email: string;
-  paymentMethod: string;
-  deliveryIn: number;
-  address: {
-    streetAddress: string;
-    landmark: string;
-    city: string;
-    state: string;
-  };
-};
-
-const paymentOptions: SelectOptionType[] = [
-  { value: "", text: "Select" },
-  { value: "online", text: "Paid Online" },
-  { value: "COD", text: "Cash on Delivery" },
-];
-
-const deliveryInOptions: SelectOptionType[] = [
-  { value: 0, text: "Select" },
-  { value: 30, text: "Half an Hour" },
-  { value: 60, text: "1 Hour" },
-  { value: 120, text: "2 Hour" },
-  { value: 180, text: "3 Hour" },
-];
+import CheckoutForm from "./CheckoutForm";
 
 export const FoodDeliveryForm = () => {
-  // 型をジェネリクスで渡すことで，registerに意図しない値を入れないようにできる
+  const methods: UseFormReturn<FoodDeliveryFormType> =
+    useForm<FoodDeliveryFormType>({
+      mode: "onSubmit",
+      reValidateMode: "onChange",
+      defaultValues: {
+        customerName: "First Customer",
+        mobile: "000-0000",
+        orderNo: 123131312,
+        Email: "Json@json.com",
+        paymentMethod: "",
+        deliveryIn: 0,
+        address: {
+          streetAddress: "",
+          landmark: "",
+          city: "",
+          state: "",
+        },
+      },
+    });
+
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<FoodDeliveryFormType>({
-    mode: "onSubmit",
-    reValidateMode: "onChange",
-    defaultValues: {
-      customerName: "First Customer",
-      mobile: "000-0000",
-      orderNo: 123131312,
-      Email: "Json@json.com",
-      paymentMethod: "",
-      deliveryIn: 0,
-      address: {
-        streetAddress: "",
-        landmark: "",
-        city: "",
-        state: "",
-      },
-    },
-  });
+  } = methods;
 
   // registerの返却値
   // - name
@@ -153,29 +130,9 @@ export const FoodDeliveryForm = () => {
         </div>
       </div>
       <div>list of ordered food items</div>
-      <div className="text-start fw-bold mt-4 mb-2">Checkout Details</div>
-      <div className="row mb-2">
-        <div className="col">
-          <Select
-            label="Payment Method"
-            {...register("paymentMethod", {
-              required: "This field is required",
-            })}
-            options={paymentOptions}
-            error={errors.paymentMethod}
-          />
-        </div>
-        <div className="col">
-          <Select
-            label="Delivery Within"
-            {...register("deliveryIn", {
-              required: "This field is required",
-            })}
-            options={deliveryInOptions}
-            error={errors.deliveryIn}
-          />
-        </div>
-      </div>
+      <FormProvider {...methods}>
+        <CheckoutForm />
+      </FormProvider>
       <div className="text-start fw-bold mt-4 mb-2">Delivery Address</div>
       <div className="row mb-3">
         <div className="col">
