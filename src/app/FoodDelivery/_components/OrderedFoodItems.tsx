@@ -25,7 +25,7 @@ const OrderedFoodItems = () => {
     setFoodOptions([{ value: 0, text: "Select" }, ...tmpOptions]);
   }, []);
 
-  const { register, getValues, setValue } = useFormContext<
+  const { register, getValues, setValue, trigger } = useFormContext<
     { gTotal: number } & {
       foodItems: OrderedFoodItemType[];
     }
@@ -148,7 +148,7 @@ const OrderedFoodItems = () => {
                   })}
                 />{" "}
               </td>
-              <td className="text-start align-middle">
+              <td className="text-start pt-3">
                 ${getValues(`foodItems.${index}.price`)}
               </td>
               <td>
@@ -160,17 +160,27 @@ const OrderedFoodItems = () => {
                   {...register(`foodItems.${index}.quantity` as const, {
                     valueAsNumber: true,
                     required: "less than 1.",
+                    validate: {
+                      notMoreThanStock: async (value: number) => {
+                        await new Promise((resolve) =>
+                          setTimeout(resolve, 1000)
+                        );
+                        if (value && value > 9) return "OOS";
+                        else return true;
+                      },
+                    },
                     min: {
                       value: 1,
                       message: "less than 1.",
                     },
                     onChange: () => {
                       updateRowTotalPrice(index);
+                      trigger(`foodItems.${index}.quantity`);
                     },
                   })}
                 />
               </td>
-              <td className="text-start align-middle">
+              <td className="text-start pt-3">
                 ${getValues(`foodItems.${index}.totalPrice`)}
               </td>
               <td>
