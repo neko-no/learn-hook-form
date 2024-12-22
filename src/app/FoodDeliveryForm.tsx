@@ -10,6 +10,10 @@ type FoodDeliveryFormType = {
   Email: string;
   paymentMethod: string;
   deliveryIn: number;
+  streetAddress: string;
+  landmark: string;
+  city: string;
+  state: string;
 };
 
 const paymentOptions: SelectOptionType[] = [
@@ -42,6 +46,10 @@ export const FoodDeliveryForm = () => {
       Email: "Json@json.com",
       paymentMethod: "",
       deliveryIn: 0,
+      streetAddress: "",
+      landmark: "",
+      city: "",
+      state: "",
     },
   });
 
@@ -141,6 +149,7 @@ export const FoodDeliveryForm = () => {
         </div>
       </div>
       <div>list of ordered food items</div>
+      <div className="text-start fw-bold mt-4 mb-2">Checkout Details</div>
       <div className="row mb-2">
         <div className="col">
           <Select
@@ -163,8 +172,43 @@ export const FoodDeliveryForm = () => {
           />
         </div>
       </div>
-      <div>check out details</div>
-      <div>delivery address</div>
+      <div className="text-start fw-bold mt-4 mb-2">Delivery Address</div>
+      <div className="row mb-3">
+        <div className="col">
+          <TextField
+            label="Street Address"
+            error={errors.streetAddress}
+            {...register("streetAddress", {
+              required: "This field is required.",
+            })}
+          />
+        </div>
+        <div className="col">
+          <TextField
+            label="City"
+            error={errors.city}
+            {...register("city", {
+              required: "This field is required.",
+            })}
+          />
+        </div>
+      </div>
+      <div className="row mb-3">
+        <div className="col">
+          <TextField
+            label="Landmark"
+            error={errors.landmark}
+            {...register("landmark")}
+          />
+        </div>
+        <div className="col">
+          <TextField
+            label="State"
+            error={errors.state}
+            {...register("state")}
+          />
+        </div>
+      </div>
 
       <button type="submit" className="btn btn-primary">
         Submit
