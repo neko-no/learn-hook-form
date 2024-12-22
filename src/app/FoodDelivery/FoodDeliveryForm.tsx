@@ -33,12 +33,7 @@ export const FoodDeliveryForm = () => {
       },
     });
 
-  const { handleSubmit, control, getFieldState, watch } = methods;
-
-  const paymentMethod = watch("paymentMethod");
-  useEffect(() => {
-    if (paymentMethod == "online") alert("please verify transaction");
-  }, [paymentMethod]);
+  const { handleSubmit, control, getFieldState } = methods;
 
   // registerの返却値
   // - name
