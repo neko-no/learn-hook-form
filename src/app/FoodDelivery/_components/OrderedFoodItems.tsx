@@ -9,15 +9,36 @@ const OrderedFoodItems = () => {
     name: "foodItems",
   });
 
-  const { fields } = useFieldArray<{ foodItems: OrderedFoodItemType[] }>({
+  const { fields, append } = useFieldArray<{
+    foodItems: OrderedFoodItemType[];
+  }>({
     name: "foodItems",
   });
+
+  const onRowAdd = () => {
+    append(
+      { name: "Food", quantity: 1 },
+      {
+        shouldFocus: true,
+        focusIndex: 0,
+      }
+    );
+  };
   return (
     <table className="table table-borderless table-hover">
       <thead>
         <tr>
           <th>Food</th>
           <th>Quantity</th>
+          <th>
+            <button
+              type="button"
+              className="btn btn-sm btn-secondary"
+              onClick={onRowAdd}
+            >
+              + Add
+            </button>
+          </th>
         </tr>
       </thead>
       <tbody>
@@ -40,6 +61,7 @@ const OrderedFoodItems = () => {
                 {...register(`foodItems.${index}.quantity` as const)}
               />
             </td>
+            <td></td>
           </tr>
         ))}
       </tbody>
