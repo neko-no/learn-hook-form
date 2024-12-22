@@ -10,6 +10,7 @@ import CheckoutForm from "./_components/CheckoutForm";
 import DeliveryAddressForm from "./_components/DeliveryAddressForm";
 import FoodDeliveryMaster from "./_components/FoodDeliveryMaster";
 import SubmitButton from "../controls/SubmitButton";
+import FoodItems from "./_components/FoodItems";
 
 export const FoodDeliveryForm = () => {
   const methods: UseFormReturn<FoodDeliveryFormType> =
@@ -23,6 +24,7 @@ export const FoodDeliveryForm = () => {
         Email: "Json@json.com",
         paymentMethod: "",
         deliveryIn: 0,
+        foodItems: [{ name: "Chicken Tender" }, { name: "Sweet Potato Fries" }],
         address: {
           streetAddress: "",
           landmark: "",
@@ -32,7 +34,7 @@ export const FoodDeliveryForm = () => {
       },
     });
 
-  const { handleSubmit, control, setValue } = methods;
+  const { handleSubmit, control } = methods;
 
   // registerの返却値
   // - name
@@ -49,19 +51,13 @@ export const FoodDeliveryForm = () => {
     console.log("validation errors", errors);
   };
 
-  const onDemo = () => {
-    // console.log(getValues())
-    setValue("Email", "email123", {
-      shouldValidate: true,
-      shouldDirty: true,
-      shouldTouch: true,
-    });
-  };
+  const onDemo = () => {};
 
   return (
     <form autoComplete="off" onSubmit={handleSubmit(onSubmit, onError)}>
       <FormProvider {...methods}>
         <FoodDeliveryMaster />
+        <FoodItems />
         <CheckoutForm />
         <DeliveryAddressForm />
       </FormProvider>
