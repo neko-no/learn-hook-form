@@ -6,6 +6,8 @@ type FoodDeliveryFormType = {
   } & MasterFoodDeliveryFormType & CheckoutFormType;
 
 type MasterFoodDeliveryFormType = {
+    orderId: number;
+    placedOn: Date;
     customerName: string;
     customerField: string;
     mobile: string;
