@@ -10,10 +10,12 @@ type FoodDeliveryFormType = {
   Email: string;
   paymentMethod: string;
   deliveryIn: number;
-  streetAddress: string;
-  landmark: string;
-  city: string;
-  state: string;
+  address: {
+    streetAddress: string;
+    landmark: string;
+    city: string;
+    state: string;
+  };
 };
 
 const paymentOptions: SelectOptionType[] = [
@@ -46,10 +48,12 @@ export const FoodDeliveryForm = () => {
       Email: "Json@json.com",
       paymentMethod: "",
       deliveryIn: 0,
-      streetAddress: "",
-      landmark: "",
-      city: "",
-      state: "",
+      address: {
+        streetAddress: "",
+        landmark: "",
+        city: "",
+        state: "",
+      },
     },
   });
 
@@ -177,8 +181,8 @@ export const FoodDeliveryForm = () => {
         <div className="col">
           <TextField
             label="Street Address"
-            error={errors.streetAddress}
-            {...register("streetAddress", {
+            error={errors.address?.streetAddress}
+            {...register("address.streetAddress", {
               required: "This field is required.",
             })}
           />
@@ -186,8 +190,8 @@ export const FoodDeliveryForm = () => {
         <div className="col">
           <TextField
             label="City"
-            error={errors.city}
-            {...register("city", {
+            error={errors.address?.city}
+            {...register("address.city", {
               required: "This field is required.",
             })}
           />
@@ -197,15 +201,15 @@ export const FoodDeliveryForm = () => {
         <div className="col">
           <TextField
             label="Landmark"
-            error={errors.landmark}
-            {...register("landmark")}
+            error={errors.address?.landmark}
+            {...register("address.landmark")}
           />
         </div>
         <div className="col">
           <TextField
             label="State"
-            error={errors.state}
-            {...register("state")}
+            error={errors.address?.state}
+            {...register("address.state")}
           />
         </div>
       </div>
