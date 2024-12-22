@@ -49,7 +49,7 @@ const CheckoutForm = () => {
           <Select
             label="Delivery Within"
             {...register("deliveryIn", {
-              required: "This field is required",
+              valueAsNumber: true,
             })}
             options={deliveryInOptions}
             error={errors.deliveryIn}

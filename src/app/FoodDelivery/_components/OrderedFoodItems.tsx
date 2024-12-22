@@ -78,8 +78,13 @@ const OrderedFoodItems = () => {
               <td>
                 <Select
                   options={foodOptions}
+                  error={errors.foodItems && errors.foodItems[index]?.foodId}
                   {...register(`foodItems.${index}.foodId` as const, {
                     valueAsNumber: true,
+                    min: {
+                      value: 1,
+                      message: "Select food",
+                    },
                   })}
                 />{" "}
               </td>
@@ -88,8 +93,16 @@ const OrderedFoodItems = () => {
                 <TextField
                   type="number"
                   min={0}
+                  error={errors.foodItems && errors.foodItems[index]?.quantity}
                   className="border-success"
-                  {...register(`foodItems.${index}.quantity` as const)}
+                  {...register(`foodItems.${index}.quantity` as const, {
+                    valueAsNumber: true,
+                    required: "less than 1.",
+                    min: {
+                      value: 1,
+                      message: "less than 1.",
+                    },
+                  })}
                 />
               </td>
               <td>total price</td>
