@@ -24,10 +24,7 @@ export const FoodDeliveryForm = () => {
         Email: "Json@json.com",
         paymentMethod: "",
         deliveryIn: 0,
-        foodItems: [
-          { name: "", quantity: 0 },
-          { name: "", quantity: 0 },
-        ],
+        foodItems: [{ foodId: 0, price: 0, totalPrice: 0, quantity: 0 }],
         address: {
           streetAddress: "",
           landmark: "",

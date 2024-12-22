@@ -1,8 +1,24 @@
+import Select from "@/app/controls/Select";
 import TextField from "@/app/controls/TextField";
-import React from "react";
+import { getFoodItems } from "@/app/db";
+import React, { useEffect, useState } from "react";
 import { useFieldArray, useFormContext, useFormState } from "react-hook-form";
 
 const OrderedFoodItems = () => {
+  const [foodList, setFoodList] = useState<FoodType[]>([]);
+  const [foodOptions, setFoodOptions] = useState<SelectOptionType[]>([]);
+
+  useEffect(() => {
+    const tmpList: FoodType[] = getFoodItems();
+    const tmpOptions: SelectOptionType[] = tmpList.map((x) => ({
+      value: x.foodId,
+      text: x.name,
+    }));
+
+    setFoodList(tmpList);
+    setFoodOptions([{ value: 0, text: "Select" }, ...tmpOptions]);
+  }, []);
+
   const { register } = useFormContext<{ foodItems: OrderedFoodItemType[] }>();
 
   const { errors } = useFormState<{ foodItems: OrderedFoodItemType[] }>({
@@ -23,7 +39,7 @@ const OrderedFoodItems = () => {
 
   const onRowAdd = () => {
     append(
-      { name: "Food", quantity: 1 },
+      { foodId: 0, price: 0, totalPrice: 0, quantity: 0 },
       {
         shouldFocus: true,
         focusIndex: 0,
@@ -37,11 +53,14 @@ const OrderedFoodItems = () => {
 
   return (
     <>
+      <div className="text-start fw-bold mt-4">Ordered Food List</div>
       <table className="table table-borderless table-hover">
         <thead>
           <tr>
             <th>Food</th>
+            <th>Price</th>
             <th>Quantity</th>
+            <th>Total Price</th>
             <th>
               <button
                 type="button"
@@ -57,14 +76,14 @@ const OrderedFoodItems = () => {
           {fields.map((field, index) => (
             <tr key={field.id}>
               <td>
-                <TextField
-                  className="border-success"
-                  {...register(`foodItems.${index}.name` as const, {
-                    required: "This field is required.",
+                <Select
+                  {...register(`foodItems.${index}.foodId` as const, {
+                    required: "This field is required",
                   })}
-                  error={errors.foodItems && errors.foodItems[index]?.name}
-                />
+                  options={foodOptions}
+                />{" "}
               </td>
+              <td>price</td>
               <td>
                 <TextField
                   type="number"
@@ -73,6 +92,7 @@ const OrderedFoodItems = () => {
                   {...register(`foodItems.${index}.quantity` as const)}
                 />
               </td>
+              <td>total price</td>
               <td>
                 {index > 0 && (
                   <button
@@ -90,7 +110,7 @@ const OrderedFoodItems = () => {
         {errors.foodItems?.root && (
           <tfoot>
             <tr>
-              <td colSpan={3}>
+              <td colSpan={5}>
                 <span className="error-feedback">
                   {errors.foodItems?.root?.message}
                 </span>
