@@ -5,6 +5,7 @@ import {
   FieldErrors,
   UseFormReturn,
   FormProvider,
+  useWatch,
 } from "react-hook-form";
 import CheckoutForm from "./_components/CheckoutForm";
 import DeliveryAddressForm from "./_components/DeliveryAddressForm";
@@ -16,7 +17,7 @@ import FormLoader from "../controls/FormLoader";
 
 const id = 1;
 
-const defaultValues: FoodDeliveryFormType = {
+const initialValues: FoodDeliveryFormType = {
   orderId: 0,
   customerField: "",
   customerName: "First Customer",
@@ -43,17 +44,18 @@ export const FoodDeliveryForm = () => {
       reValidateMode: "onChange",
       shouldUnregister: true,
       defaultValues: async () => {
-        if (id === 0) return new Promise((resolve) => resolve(defaultValues));
+        if (id === 0) return new Promise((resolve) => resolve(initialValues));
         else {
           const tempOrder = await fetchLastOrder();
           return new Promise((resolve) =>
-            resolve(tempOrder != null ? tempOrder : defaultValues)
+            resolve(tempOrder != null ? tempOrder : initialValues)
           );
         }
       },
     });
 
-  const { handleSubmit, control, getValues } = methods;
+  const { handleSubmit, control, reset } = methods;
+  useWatch({ control });
 
   // registerの返却値
   // - name
@@ -73,9 +75,8 @@ export const FoodDeliveryForm = () => {
     console.log("validation errors", errors);
   };
 
-  const onDemo = () => {
-    getValues("foodItems.0.foodId");
-    console.log(typeof getValues("foodItems.0.foodId"));
+  const onReset = () => {
+    reset(initialValues, { keepErrors: true });
   };
 
   return (
@@ -89,8 +90,12 @@ export const FoodDeliveryForm = () => {
       </FormProvider>
 
       <SubmitButton value="Submit" control={control} />
-      <button className="btn btn-secondary ms-2" onClick={onDemo} type="button">
-        Demo
+      <button
+        className="btn btn-secondary ms-2"
+        onClick={onReset}
+        type="button"
+      >
+        Reset
       </button>
     </form>
   );
