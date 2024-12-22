@@ -11,3 +11,8 @@ export const getFoodItems =() =>{
       { foodId: 9, name: "Canned Drinks", price: 1 },
     ] as FoodType[]
   }
+
+  const ORDER_KEY = 'order';
+  export const createOrder = (order: FoodDeliveryFormType) => {
+    localStorage.setItem(ORDER_KEY, JSON.stringify(order));
+  }

@@ -11,6 +11,7 @@ import DeliveryAddressForm from "./_components/DeliveryAddressForm";
 import SubmitButton from "../controls/SubmitButton";
 import OrderedFoodItems from "./_components/OrderedFoodItems";
 import MasterFoodDeliveryForm from "./_components/MasterFoodDeliveryForm";
+import { createOrder } from "../db";
 
 export const FoodDeliveryForm = () => {
   const methods: UseFormReturn<FoodDeliveryFormType> =
@@ -45,6 +46,9 @@ export const FoodDeliveryForm = () => {
   // 以上をスプレッド構文で展開することで，簡潔に記載できる
 
   const onSubmit = async (formData: FoodDeliveryFormType) => {
+    formData.orderId = 1;
+    formData.placedOn = new Date();
+    createOrder(formData);
     console.log("form data", formData);
   };
 
