@@ -1,7 +1,7 @@
 "use client";
 
 import { FC } from "react";
-import { FoodDeliveryForm } from "./FoodDeliveryForm";
+import { FoodDeliveryForm } from "./FoodDelivery/FoodDeliveryForm";
 
 const Page: FC = () => {
   return (
