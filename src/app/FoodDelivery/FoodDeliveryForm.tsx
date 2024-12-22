@@ -41,6 +41,7 @@ export const FoodDeliveryForm = () => {
     useForm<FoodDeliveryFormType>({
       mode: "onSubmit",
       reValidateMode: "onChange",
+      shouldUnregister: true,
       defaultValues: async () => {
         if (id === 0) return new Promise((resolve) => resolve(defaultValues));
         else {
@@ -64,7 +65,7 @@ export const FoodDeliveryForm = () => {
   const onSubmit = async (formData: FoodDeliveryFormType) => {
     formData.orderId = 1;
     formData.placedOn = new Date();
-    createOrder(formData);
+    // createOrder(formData);
     console.log("form data", formData);
   };
 
