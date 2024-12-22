@@ -1,5 +1,6 @@
 import { useForm, FieldErrors } from "react-hook-form";
 import TextField from "./controls/TextField";
+import Select from "./controls/Select";
 
 type FoodDeliveryFormType = {
   customerName: string;
@@ -10,6 +11,20 @@ type FoodDeliveryFormType = {
   paymentMethod: string;
   deliveryIn: number;
 };
+
+const paymentOptions: SelectOptionType[] = [
+  { value: "", text: "Select" },
+  { value: "online", text: "Paid Online" },
+  { value: "COD", text: "Cash on Delivery" },
+];
+
+const deliveryInOptions: SelectOptionType[] = [
+  { value: 0, text: "Select" },
+  { value: 30, text: "Half an Hour" },
+  { value: 60, text: "1 Hour" },
+  { value: 120, text: "2 Hour" },
+  { value: 180, text: "3 Hour" },
+];
 
 export const FoodDeliveryForm = () => {
   // 型をジェネリクスで渡すことで，registerに意図しない値を入れないようにできる
@@ -128,22 +143,25 @@ export const FoodDeliveryForm = () => {
       <div>list of ordered food items</div>
       <div className="row mb-2">
         <div className="col">
-          <div className="form-floating">
-            <select
-              className="form-select"
-              aria-label="Default select example"
-              {...register("paymentMethod")}
-            >
-              <option value="">Select</option>
-              <option value="online">Paid Online</option>
-              <option value="COD">Cash on Delivery</option>
-            </select>
-            <label htmlFor="#" className="">
-              Payment Method
-            </label>
-          </div>
+          <Select
+            label="Payment Method"
+            {...register("paymentMethod", {
+              required: "This field is required",
+            })}
+            options={paymentOptions}
+            error={errors.paymentMethod}
+          />
         </div>
-        <div className="col"></div>
+        <div className="col">
+          <Select
+            label="Delivery Within"
+            {...register("deliveryIn", {
+              required: "This field is required",
+            })}
+            options={deliveryInOptions}
+            error={errors.deliveryIn}
+          />
+        </div>
       </div>
       <div>check out details</div>
       <div>delivery address</div>
